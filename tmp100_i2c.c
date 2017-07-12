@@ -28,15 +28,15 @@ int main (int argc, char ** argv)
             break;
         case 'C':
             conf_reg = atoi(optarg);
-            printf ("The CONFIG_REGISTER value is: %s!\n", optarg);
+            printf ("The CONFIG_REGISTER value is: %s\n", optarg);
             break;
         case 'L':
             temp_low = atoi(optarg);
-            printf ("The TEMP_LOW_REGISTER value is: %s.\n", optarg);
+            printf ("The TEMP_LOW_REGISTER value is: %s\n", optarg);
             break;
         case 'H':
             temp_high = atoi(optarg);
-            printf ("The TEMP_HIGH_REGISTER value is: %s.\n", optarg);
+            printf ("The TEMP_HIGH_REGISTER value is: %s\n", optarg);
             break;
         default:
             printf("Usage: %s -A [chip-address] -C [config-reg] -L [Tlow-reg] -H [Thigh-reg] \n", argv[0]);
