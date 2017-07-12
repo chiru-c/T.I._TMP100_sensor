@@ -1,6 +1,6 @@
-SRC = i2c.c
-OBJ = i2c.o
-PROJ = i2c
+SRC = tmp100_i2c.c
+OBJ = tmp100_i2c.o
+PROJ = tmp100_i2c
 
 $(PROJ) : $(OBJ)
 	gcc $(OBJ) -o $(PROJ)
