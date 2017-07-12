@@ -9,8 +9,7 @@
 
 int main (int argc, char ** argv)
 {
-    int conf_reg, temp_high, temp_low, address, file;
-    char c;
+    int c, conf_reg, address, file, temp_high, temp_low;
     float t;
     __u8 reg = 0x00;
     __s32 res, b1, b0;
@@ -56,6 +55,12 @@ int main (int argc, char ** argv)
         exit(1);
     }
 
+    // Test if chip address is in range
+    if (address < 0  || address > 119){
+        printf ("Chip address is out of 0x00 - 0x77 range!\n");
+        exit(-1);
+    }
+
     //Specify address of the i2c chip to communicate with
     if (ioctl(file, I2C_SLAVE, address) < 0){
         printf("IOCTL failed\n");
@@ -63,43 +68,40 @@ int main (int argc, char ** argv)
     }
 
     //Test out of range values
-    if (address < 0  || address > 119){
-        printf ("Chip address is out of 0x00 - 0x77 range!\n");
-        exit(-1);
-    }
-
     if ( conf_reg > 255 || conf_reg < 0 ){
-        printf ("The Config register value is out of range!\n");
+        printf ("The CONFIG_REGISTER value is out of range!\n");
         exit (-1);
     } else {
        i2c_smbus_write_word_data(file, 0x01, conf_reg);
     }
 
     if ( temp_low > 65535 || temp_low < 0 ){
-        printf ("The TempLow register value is out of range!\n");
+        printf ("The TEMP_LOW_REGISTER register value is out of range!\n");
         exit (-1);
     } else {
         i2c_smbus_write_word_data(file, 0x02, temp_low);
     }
 
     if ( temp_high > 65535 || temp_high < 0 ){
-        printf ("The TempHigh register value is out of range!\n");
+        printf ("The TEMP_HIGH_REGISTER value is out of range!\n");
         exit (-1);
     } else {
         i2c_smbus_write_word_data(file, 0x03, temp_high);
     }
 
     //Read the Temperature register
-    res = i2c_smbus_read_word_data(file, reg);
-
-    if (res < 0){
-        printf("SMBus read failed\n");
-        exit(1);
-    } else {
-        b1 = (res & 0X000000ff) << 4;
-        b0 = (res & 0X0000f000) >> 12;
-        t = (b0 + b1) * 0.0625;
-        printf ("The temperature is: %.4f °C\n", t);
+    while(1){
+        res = i2c_smbus_read_word_data(file, reg);
+        if (res < 0){
+            printf("SMBus read failed\n");
+            exit(1);
+        } else {
+            b1 = (res & 0X000000ff) << 4;
+            b0 = (res & 0X0000f000) >> 12;
+            t = (b0 + b1) * 0.0625;
+            printf ("The temperature is: %.4f °C\n", t);
+        }
+        sleep(1);
     }
 
     return 0;
