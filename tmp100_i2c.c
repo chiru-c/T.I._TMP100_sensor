@@ -49,6 +49,19 @@ int main (int argc, char ** argv)
 
     //address = 0x48;
 
+    // Open the i2c device
+    file = open("/dev/i2c-1", O_RDWR);
+    if (file < 0){
+        printf("ERROR open(%d)failed\n", file);
+        exit(1);
+    }
+
+    //Specify address of the i2c chip to communicate with
+    if (ioctl(file, I2C_SLAVE, address) < 0){
+        printf("IOCTL failed\n");
+        exit(1);
+    }
+
     //Test out of range values
     if (address < 0  || address > 119){
         printf ("Chip address is out of 0x00 - 0x77 range!\n");
@@ -74,19 +87,6 @@ int main (int argc, char ** argv)
         exit (-1);
     } else {
         i2c_smbus_write_word_data(file, 0x03, temp_high);
-    }
-
-    // Open the i2c device
-    file = open("/dev/i2c-1", O_RDWR);
-    if (file < 0){
-        printf("ERROR open(%d)failed\n", file);
-        exit(1);
-    }
-
-    //Specify address of the i2c chip to communicate with
-    if (ioctl(file, I2C_SLAVE, address) < 0){
-        printf("IOCTL failed\n");
-        exit(1);
     }
 
     //Read the Temperature register
