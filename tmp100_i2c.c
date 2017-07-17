@@ -38,13 +38,13 @@ int main (int argc, char ** argv)
             printf ("The TEMP_HIGH_REGISTER value is: %s\n", optarg);
             break;
         default:
-            printf("Usage: %s -A [chip-address] -C [config-reg] -L [Tlow-reg] -H [Thigh-reg] \n", argv[0]);
+            printf("Usage: %s -A [chip-address] -C [config-reg] -L [t_low-reg] -H [t_high-reg] \n", argv[0]);
             exit(1);
         }
     }
 
     //Check the values that you have entered in a hex format
-    printf ("The value stored in the parameters: %#04x %#04x %#04x %#04x\n", address, conf_reg, temp_low, temp_high);
+    printf ("The value stored in the parameters: %#04x %#04x %#04x %#04x !\n", address, conf_reg, temp_low, temp_high);
 
     //address = 0x48;
 
