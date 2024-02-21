@@ -1,3 +1,4 @@
+//Welcome to Intel
 #include <stdio.h>
 #include <stdlib.h>
 #include <linux/i2c-dev.h>
@@ -6,6 +7,14 @@
 #include <sys/ioctl.h>
 #include <getopt.h>
 
+/* Add a sample of how to use the application
+   $ ./tmp100_i2c -A 73 -C 124 -L 0000 -H 65500
+   The selected chip-address is: 73
+   The CONFIG_REGISTER value is: 124
+   The TEMP_LOW_REGISTER value is: 0000
+   The TEMP_HIGH_REGISTER value is: 65500
+   The value stored in the parameters: 0x49 0x7c 0000 0xffdc !
+*/
 
 int main (int argc, char ** argv)
 {
